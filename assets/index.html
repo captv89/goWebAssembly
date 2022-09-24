@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <script src="wasm_exec.js"></script>
+    <script>
+        const go = new Go();
+        WebAssembly.instantiateStreaming(fetch("json.wasm"), go.importObject).then((result) => {
+            go.run(result.instance);
+        });
+    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Go WebAssembly</title>
+</head>
+<body>
+    <h1 class="text-3xl font-bold uppercase font-mono">Go WebAssembly</h1>
+    <p>A tiny project to try Go, Wasm & JS.</p>
+    <br>
+        <p>RAW JSON: <span id="json"></span></p>
+        <textarea id="jsoninput" name="jsoninput" rows="20" cols="80" placeholder="Your raw unformatted JSON text.."></textarea>
+
+        <br>
+
+        <input id="button" name="button" type="button" value="Pretty Json" onclick="json(jsoninput.value)"/>
+
+        <br>
+
+        <p>PRETTY JSON: <span id="prettyjson"></span></p>
+        <textarea id="jsonoutput" name="jsonoutput" rows="20" cols="80"></textarea>
+</body>
+<script>
+    const json = function (input) {
+        var result = formatJSON(input);
+        if (result) {
+            document.getElementById("jsonoutput").value = result;
+        } else {
+            alert("Invalid JSON");
+        }
+    };
+</script>
+</html>
